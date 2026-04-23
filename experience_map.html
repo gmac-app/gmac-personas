@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GMAC Customer Experience Map — Persona Refresh 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #ffffff;
+    --bg-sec:      #f8f7f5;
+    --bg-tert:     #f1f0ed;
+    --bg-warn:     #fefbf0;
+    --bg-danger:   #fef5f5;
+    --bg-success:  #f3faf5;
+    --bg-info:     #f0f6fe;
+    --text-pri:    #1a1a18;
+    --text-sec:    #5f5e5a;
+    --text-warn:   #92600a;
+    --text-danger: #a32d2d;
+    --text-success:#1f6e35;
+    --border:      rgba(26,26,24,0.13);
+    --border-sec:  rgba(26,26,24,0.22);
+    --border-warn: #f0c070;
+    --radius-md:   8px;
+    --radius-lg:   12px;
+    --font:        -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:          #1c1c1a;
+      --bg-sec:      #242422;
+      --bg-tert:     #2c2c2a;
+      --bg-warn:     #2a2010;
+      --bg-danger:   #2a1414;
+      --bg-success:  #122018;
+      --bg-info:     #0e1e2e;
+      --text-pri:    #e8e6e0;
+      --text-sec:    #888780;
+      --text-warn:   #f0c070;
+      --text-danger: #f09595;
+      --text-success:#97c459;
+      --border:      rgba(255,255,255,0.12);
+      --border-sec:  rgba(255,255,255,0.22);
+      --border-warn: #7a5010;
+    }
+  }
+
+  html, body { height: 100%; background: var(--bg); color: var(--text-pri); font-family: var(--font); }
+
+  body { padding: 32px 24px 60px; max-width: 1360px; margin: 0 auto; }
+
+  header { margin-bottom: 28px; }
+  header h1 { font-size: 20px; font-weight: 500; color: var(--text-pri); margin-bottom: 4px; }
+  header p  { font-size: 12.5px; color: var(--text-sec); line-height: 1.6; }
+  header .meta { margin-top: 8px; font-size: 11px; color: var(--text-sec); }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+
+  .chip {
+    cursor: pointer;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 7px 12px;
+    background: var(--bg);
+    text-align: left;
+    transition: border-color 0.12s;
+    font-family: var(--font);
+  }
+  .chip:hover { border-color: var(--border-sec); }
+
+  .warning-banner {
+    border: 0.5px solid var(--border-warn);
+    background: var(--bg-warn);
+    border-radius: var(--radius-md);
+    padding: 9px 12px;
+    font-size: 12px;
+    color: var(--text-warn);
+    margin-bottom: 12px;
+  }
+
+  .persona-header {
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .map-scroll { overflow-x: auto; border-radius: var(--radius-lg); border: 0.5px solid var(--border); }
+  .map-scroll::-webkit-scrollbar { height: 5px; }
+  .map-scroll::-webkit-scrollbar-track { background: var(--bg-sec); }
+  .map-scroll::-webkit-scrollbar-thumb { background: var(--border-sec); border-radius: 3px; }
+
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-sec); }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  ul.swim-list { list-style: none; padding: 0; margin: 0; }
+  ul.swim-list li { position: relative; padding-left: 14px; margin-bottom: 5px; line-height: 1.45; font-size: 11.5px; }
+  ul.swim-list li::before { content: ''; position: absolute; left: 0; top: 5px; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  footer { margin-top: 40px; font-size: 11px; color: var(--text-sec); border-top: 0.5px solid var(--border); padding-top: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>GMAC customer experience map</h1>
+  <p><strong style="font-weight:500">Teresa Torres methodology:</strong> Each moment of friction and struggle is a candidate need — the opportunity space. The map shows current reality, not ideal future. Grounded in 10 research sources across 4,253+ survey respondents, 17 interview transcripts, 13.5M GA4 users, and 4 product studies.</p>
+  <p class="meta">Version 2.2 — Persona Refresh 2026 · GMAC Advancery Project · Confidential</p>
+</header>
+
+<div id="root"></div>
+
+<footer>
+  Sources: PSS 2026 (n=4,253, 145 countries) · Tour Attendee Survey 2025 (n=2,399) · GA4 Engagement Data Jan 2025–Mar 2026 (~13.5M users) · Advancery Platform Personas · Advancery Interview Transcripts (n=17) · Advancery Product Feedback (NPS exit n=20, beta n=37, usability n=13) · GMAT Candidate Research Interviews (n=26, two waves) · GMAT Experience Survey (large-scale quantitative) · User Interviews: Sophie, Natalie, Diego (n=3, Dec 2025–Feb 2026) · GRE Applicant Research (n=20, purposive sample — not representative of market-wide test share).
+</footer>
+
+<script>
+const { useState } = React;
+
+const SW = 210, LW = 100, AH = 72;
+
+const STAGES = [
+  { id:"trigger",     label:"1. Trigger",     note:"What sparks the journey",    topColor:"#888780", bg:"var(--bg-sec)"     },
+  { id:"preTest",     label:"2. Pre-test",    note:"GMAT · GRE · EA",             topColor:"#BA7517", bg:"var(--bg-warn)"    },
+  { id:"discovery",   label:"3. Discovery",   note:"Becoming aware of programs",  topColor:"#3B6D11", bg:"var(--bg-success)" },
+  { id:"research",    label:"4. Research",    note:"Evaluating & comparing",      topColor:"#185FA5", bg:"var(--bg-info)"    },
+  { id:"application", label:"5. Application", note:"Applying to programs",        topColor:"#A32D2D", bg:"var(--bg-danger)"  },
+  { id:"decision",    label:"6. Decision",    note:"Choosing & committing",       topColor:"#3B6D11", bg:"var(--bg-success)" },
+];
+
+const PERSONAS = [
+  { id:"viola",  name:"Viola",  title:"The Visionary",            group:"Aspiring Entrepreneurs", color:"#2E7D32" },
+  { id:"frank",  name:"Frank",  title:"The Family-Business Owner", group:"Aspiring Entrepreneurs", color:"#2E7D32", thin:true },
+  { id:"han",    name:"Han",    title:"The High-Achiever",         group:"Career Advancers",        color:"#BF360C" },
+  { id:"mary",   name:"Mary",   title:"The Manager",               group:"Career Advancers",        color:"#BF360C" },
+  { id:"dan",    name:"Dan",    title:"The Dependable",            group:"Wealth Builders",         color:"#880E4F" },
+  { id:"pam",    name:"Pam",    title:"The Planner",               group:"Wealth Builders",         color:"#880E4F" },
+  { id:"evan",   name:"Evan",   title:"The Expat",                 group:"Global Careerists",       color:"#1565C0" },
+  { id:"claire", name:"Claire", title:"The Cosmopolitan",          group:"Global Careerists",       color:"#1565C0" },
+  { id:"nadia",  name:"Nadia",  title:"The Navigator",             group:"Education as Immigration",color:"#4527A0" },
+];
+
+const DATA = {
+viola:[
+  {e:3,d:["Talks to parents about job dissatisfaction","Meets PE firm contact via family friend","Creates list of possible career paths"],t:"I don't love my job. Dad says there are so many other things I could do. But how do I know which path is right?",p:["No MBA peer network to guide her","No structured way to compare career options"],o:["No GME touchpoint yet — Viola is not searching for GME content"]},
+  {e:2,d:["Researches GMAT vs GRE vs EA","Books test center — often very far away","Pays per attempt over 2–3 attempts"],t:"Why is the test center so far? Why is this so expensive? Am I even smart enough to do this?",p:["Limited/poor test centers in Nigeria, Turkey, Indonesia","Every retake compounds cost and discouragement"],o:["Online GMAT guidance for her geographies","EA awareness content (90-min alternative)"]},
+  {e:3,d:["Googles 'best MBAs'","Builds shortlist via ChatGPT","Joins WhatsApp MBA groups","Finds a friend currently at INSEAD"],t:"Who can I actually trust? I found someone like me who got in — that means more than any ranking.",p:["Official sources feel like marketing","Entrepreneurship content nearly absent from MBA.com"],o:["Peer narrative content on MBA.com (Shreya-style)","Entrepreneurship program spotlights"]},
+  {e:4,d:["Deep-dives FT rankings","Checks network and salary scores","Researches scholarship pages","Signs up for virtual tour"],t:"INSEAD's network score is incredible. But can I afford it without a scholarship? What do alumni actually do?",p:["Admissions process opaque for non-Western candidates","Cost anxiety compounds as program quality increases"],o:["Scholarship guide (447K views, 10% bounce)","Regional and virtual tours"]},
+  {e:2,d:["Writes essays for 3–4 schools","Chases references","Applies for scholarships"],t:"I don't understand what they want from me. At home, university admissions was just a test. This is something else entirely.",p:["Admissions system entirely unfamiliar — essays, recs, interviews not normalized","Requirements vary school-to-school with no clear guide"],o:["Admissions explainer for non-Western candidates","Advancery for checklist and deadline management"]},
+  {e:5,d:["Weighs scholarship offers","Calls INSEAD friend for honest read","Makes final financial calculation"],t:"My friend says the network really is that good. With a scholarship, I can make this work.",p:["Financial commitment is still very real even with scholarship","Distance from family if going to Europe"],o:["Alumni entrepreneurship network content","European program spotlights and scholarship negotiation guidance"]},
+],
+frank:[
+  {e:3,d:["Running day-to-day family business operations","Wondering whether formal credential would strengthen authority"],t:"I already have operational knowledge. Do I actually need a credential to be taken seriously as the next CEO?",p:["No peer network pursuing family-business credentials","Role is operational — unclear how MBA changes it"],o:["No documented touchpoint — speculative only"]},
+  {e:2,d:["GMAT/GRE research with no community support","Navigating test prep largely alone"],t:"I don't know anyone who has done this. I'm figuring it all out myself.",p:["No peer network for test prep guidance"],o:["No documented touchpoint — speculative only"]},
+  {e:3,d:["Online research into MBA and certificate programs","Comparing formats and flexibility"],t:"Would a certificate be enough? Or do I need a full MBA for it to mean something to the business?",p:["Certificate vs MBA decision unclear","Part-time and self-paced formats hard to compare"],o:["Certificate vs part-time MBA content (speculative)","Part-time program filters on MBA.com"]},
+  {e:3,d:["Comparing program formats and schedules","Researching online and hybrid options"],t:"Time and flexibility are my biggest constraints. Which programs actually work around my schedule?",p:["Flexibility information scattered across many program sites"],o:["Part-time and flexible program filters (speculative)"]},
+  {e:2,d:["Application with minimal peer guidance"],t:"Is this the right investment of time and money for what I'm trying to accomplish?",p:["Limited support network","Uncertainty about ROI in family business context"],o:["Insufficient research to map reliably — see persona update recommendations"]},
+  {e:3,d:["Enrollment decision without strong external validation"],t:"I hope this changes how people in the business see me.",p:["No community of peers who have made the same decision"],o:["Insufficient research to map reliably — see persona update recommendations"]},
+],
+han:[
+  {e:3,d:["Passed over for promotion to VP Engineering","Sees MBA-credentialed peers advancing to CTO track","Starts researching MBA ROI"],t:"I've hit a ceiling. My technical skills alone won't get me there. I need a different kind of credential to be taken seriously in the room.",p:["Career ceiling invisible until you hit it","No clear path from technical to executive without business credential"],o:["Career advancement and CTO pathway content on MBA.com"]},
+  {e:2,d:["Months of GMAT DI section prep","Retakes after disappointing first attempt","Peer pressure toward GRE begins"],t:"The DI section is destroying me. My friends just took the GRE and got in. But doesn't GMAT show more mettle?",p:["DI section timing crisis — #1 pain point across all GMAT research","Algorithm mythology creates superstition and exam avoidance","Retake cost spiral"],o:["GMAT Focus DI prep and timing guidance","Adaptive scoring explainer to reduce anxiety","EA awareness for senior technical professionals"]},
+  {e:3,d:["Reddit r/MBA deep-dive","ChatGPT school shortlist","GMAT Club community","Checks class profiles for average GMAT scores"],t:"Is my score good enough for a part-time top-10 program? Which programs are actually respected in this format?",p:["AI tools more useful for initial research than official GMAC channels","Old GMAT scores still showing in class profiles causing confusion"],o:["Part-time and online top-program spotlights","Career advancement pathway content"]},
+  {e:4,d:["MBA salary calculator (primary ROI anchor)","LinkedIn alumni research","5–6 alumni coffee chats","Checks employer reimbursement policy"],t:"What's the actual salary jump? Will my company pay for this? I need to see real numbers before I can commit.",p:["School websites are 'pure marketing' — real outcome data hard to find","Employer reimbursement eligibility often unclear"],o:["MBA salary calculator — 2.4M views, 20% bounce: Han's primary ROI tool","Employer reimbursement guide and facilitated alumni networking"]},
+  {e:2,d:["Score sending in the 48-hour window","Employer reimbursement request","Technical-to-executive essays","Interview prep for multiple schools"],t:"What if I don't get in? A 700+ from a software engineer — is that actually enough? I'm terrified of rejection.",p:["Score sending window is narrow, irreversible, and opaque","Admissions rejection fear is the dominant emotion — cited by 39% of tour attendees"],o:["Score sending strategy content","Technical-to-executive essay guidance"]},
+  {e:4,d:["Compares scholarship offers from two schools","Negotiates using competing offers as leverage","Confirms employer support in writing"],t:"The network ROI matters as much as the brand. Which school will actually open the doors I need for a CTO path?",p:["Hard to compare network quality objectively","Scholarship negotiation feels opaque and unfamiliar"],o:["Alumni outcome data by career track","Network quality spotlights","Scholarship negotiation guidance"]},
+],
+mary:[
+  {e:3,d:["Failed two internal lateral move interviews","Told she 'lacks business acumen'","Family begins encouraging graduate school"],t:"I'm doing the same thing month over month. I couldn't get the internal moves. I need to upskill. If not now, when?",p:["Lateral moves blocked without credential — a catch-22","Feedback is vague; not clear whether a degree or certificate is the answer"],o:["Career advancement content for stalled managers on MBA.com"]},
+  {e:2,d:["Researches GMAT waivers by school","Considers GRE as a fallback","Fee waiver hunting begins immediately","Cost-managing every step"],t:"Can I get a waiver? The timeline is so tight. Every dollar I spend on GMAT is money I don't have for tuition.",p:["Cost anxiety is immediate and operational at every stage","Test timeline conflicts with application round deadlines"],o:["GMAT waiver guide by school and round","Access Fellowship and diversity fellowship information"]},
+  {e:4,d:["Women in Business events on MBA.com","Forte Foundation research","School webinars that waive application fees","Reddit r/MBA"],t:"Which schools actually invest in women? Are there scholarships specifically designed for me? What does a Forte network actually mean?",p:["Women's scholarship info scattered across school sites","Hard to identify schools with genuine vs nominal Forte alliances"],o:["Women in Business events — 198K views, 17% bounce: best-performing GMAC touchpoint for Mary","Forte alliance school directory","Women's MBA scholarship guide as its own dedicated resource"]},
+  {e:4,d:["Forte-affiliated school shortlist","MBA salary calculator","Flexible format research","Alumni coffee chats (5–6 women)"],t:"Cornell gave me Forte access. That's a real signal. What are women actually doing five years after this program?",p:["Post-MBA outcome data rarely broken down by gender","Flexible and hybrid format availability hard to compare"],o:["Women's post-MBA outcome data","Forte conference facilitation as GMAC touchpoint","Flexible program filters on MBA.com"]},
+  {e:2,d:["Essay writing — telling a coherent pivot story","Fee waiver hunting for every application","Applying for women's scholarships","Multi-school deadline tracking"],t:"I need to tell a story about why I need an MBA right now, not just why I want one. And I need money to make it financially possible.",p:["Cost anxiety at every application step","Essay must explain career plateau compellingly"],o:["Advancery for deadline and checklist management","Women's scholarship application guidance","Career break and plateau essay resources"]},
+  {e:5,d:["Attends Forte conference","Uses competing scholarships as leverage","Visits campus","Builds Excel ROI model"],t:"The community here is real. I can feel it. And the scholarship makes it financially possible.",p:["Final financial commitment still significant even with scholarship"],o:["Forte conference facilitation","Scholarship negotiation support","Campus visit coordination"]},
+],
+dan:[
+  {e:3,d:["Two consulting final rounds rejected","Feedback: 'lack of industry experience'","Recognizes the credential catch-22"],t:"I need experience to get experience. The MBA is the only thing that says I belong in the room before I even start talking.",p:["Credential catch-22 — no path from accounting to consulting without MBA","Unclear which programs actually place career changers effectively"],o:["Career change pathway content","Consulting placement data by program"]},
+  {e:2,d:["Debates GMAT vs GRE (non-business background)","Multi-attempt GMAT journey with eligibility anxiety","Considers GRE as the safer path"],t:"I'm an accountant. I'm strong on quant. But what if my non-business background screens me out before I even apply?",p:["'GMAT requires innate ability' perception may redirect to GRE","Non-traditional background amplifies eligibility anxiety throughout"],o:["GMAT for non-business backgrounds content","GRE vs GMAT comparison for career changers","Test waiver eligibility guide for Round 3"]},
+  {e:3,d:["Reddit r/MBA career change threads","MBA salary calculator as ROI anchor","Searches 'accounting to consulting MBA'"],t:"What's the actual salary jump? Which schools really place career changers into MBB? I need validation, not just inspiration.",p:["Career change content draws traffic but doesn't convert — inspiration without outcomes","School career change placement rates hidden in marketing copy"],o:["Career change success stories with real outcomes data","MBA salary calculator with a career-change lens","Consulting placement data by program and prior background"]},
+  {e:3,d:["School career center outcome research","LinkedIn alumni in consulting roles","12-month vs 2-year program comparison","Scholarship research"],t:"If I go top-10 I can make MBB happen. But is top-15 enough? The brand really matters for my pivot. I can't pick wrong.",p:["'Top-only or nothing' calculus creates intense pressure","Schools don't show career-change placement rates honestly"],o:["Career change placement data by school and prior industry","Admissions criteria explainer for non-business backgrounds"]},
+  {e:1,d:["Writing career pivot narrative essays — the dominant labor","Gathering recommendations","GMAT score sending under time pressure"],t:"I thought the GMAT would be the hardest part. The essays are harder. I have one shot to tell this story perfectly.",p:["Essay narrative is the real labor — the most time-consuming phase (documented)","Non-traditional background requires extra explanatory work in every essay","Admissions rejection anxiety peaks here"],o:["Career pivot essay guidance for non-traditional backgrounds","Advancery for school-specific checklists","Admissions prep for non-business undergrads"]},
+  {e:4,d:["Compares career outcome reports by school","Talks to alumni in consulting","Evaluates scholarship offers"],t:"Brand and career services matter more than almost anything else. Which school will actually get me the consulting job?",p:["Hard to get honest career outcome data — school websites are marketing","Scholarship negotiation feels uncertain"],o:["Alumni career outcome data by post-MBA role","Consulting-track alumni stories","Scholarship negotiation guidance"]},
+],
+pam:[
+  {e:3,d:["Mid-career strategic self-assessment","Employer reimbursement conversation","Researches certificate vs MBA options"],t:"I've plateaued. I need executive credibility, not just more experience. What's the most efficient path to get there?",p:["Certificate vs degree decision genuinely unclear","Employer reimbursement eligibility varies by employer and program type"],o:["Executive credential comparison tools","Certificate vs part-time MBA content","Employer reimbursement eligibility guides"]},
+  {e:2,d:["Researches EA as a time-efficient option","Checks GMAT waiver eligibility","Fits test prep around work and family if needed"],t:"I can't take three months to prep for the GMAT. Is EA actually respected? Can I get a waiver given my professional profile?",p:["EA 'signals weakness' perception is a barrier even for experienced professionals","GMAT prep time conflicts with work and family commitments"],o:["EA positioning for experienced professionals: efficiency, not weakness","GMAT waiver guide","EA social proof: class profiles showing EA admits"]},
+  {e:3,d:["Long-horizon research starting 2+ years out","Employer reimbursement policy deep-dive","EMBA vs part-time MBA comparison","MBA.com salary calculator"],t:"What's the real ROI? Which format actually fits my life? Is EMBA or part-time right for me — and does it matter?",p:["EMBA vs part-time MBA distinction confusing from the outside","European programs less visible in US-dominated content"],o:["Part-time MBA and EMBA distinction content","Employer reimbursement guide","European program spotlights"]},
+  {e:4,d:["Full financial model: scholarship, salary by region, tuition, take-home","European program deep-dive","Alumni outcome research","Employer support confirmed"],t:"The spreadsheet tells the story. I need real salary and placement data — not marketing — before I commit this much money.",p:["Needs real salary and placement data, not marketing copy","US vs Europe is a live inflection point that GMAC content doesn't address"],o:["MBA salary calculator — 2.4M views, 20% bounce: Pam's primary validation tool","Scholarship guide and European program outcome data"]},
+  {e:3,d:["Employer reimbursement application","Schedule management for part-time study while working","Advancery for tracking","Senior professional essay narrative"],t:"My story is about strategic credibility and executive trajectory — not a career change. I need to frame it very differently.",p:["Employer reimbursement process can be slow and uncertain","Schedule conflicts between work, family, and application deadlines"],o:["Advancery for deadline management","Employer reimbursement letter templates","Part-time program application guidance"]},
+  {e:4,d:["Final financial model review","European vs US final decision","Scholarship negotiation across 2–3 schools"],t:"Long-term network ROI is what matters most. Sometimes the most expensive school really is the right answer.",p:["Final financial commitment is very large","US vs Europe decision has personal dimensions beyond ROI"],o:["Alumni network ROI content","European program spotlights","Long-term career outcome data by program and geography"]},
+],
+evan:[
+  {e:3,d:["Hits career ceiling in home market","Sees international job postings requiring MBA","Researches MBA as a route to relocation","Talks to diaspora community"],t:"The international career I want requires a different credential. And an MBA might also be my ticket to the life I actually want.",p:["Career ceiling and relocation desire are intertwined — hard to separate","Unclear which programs genuinely open international doors"],o:["International career outcome content on MBA.com","Program spotlights near key industry hubs"]},
+  {e:1,d:["Books GMAT at distant test center (1.5 hrs away)","Encounters equipment failures and cramped conditions","Turns to online GMAT as alternative","Multiple attempts"],t:"The test center is 1.5 hours away and the markers don't work. Every problem with this exam is another month I can't act on my plan.",p:["Geographic test center inequality is severe and documented","Cost per attempt high relative to local income","Every exam obstacle is evaluated against the relocation goal — compound motivation to quit"],o:["Online GMAT as primary path for Evan's geographies","Test center quality improvements","EA awareness — 90-minute format is compelling here"]},
+  {e:3,d:["ChatGPT for initial school longlist","QS rankings research","Regional MBA fairs","Regional tour events"],t:"I need programs in Europe near the automotive industry. How does the visa actually work? Where do I even start?",p:["Information fragmented across school websites with inconsistent formats","GMAC content is US-focused — Evan's target destinations are invisible","ChatGPT is more useful than MBA.com for initial research"],o:["Regional tours (Africa, SE Asia, LatAm) — highest conversion touchpoint in GA4","International career content on MBA.com (a significant gap)"]},
+  {e:3,d:["Post-graduation work permit research by country","Visa pathway deep-dive","Program proximity to industry hubs","International scholarship research","Tries Advancery — target schools not in database"],t:"The Netherlands has a great startup visa. Germany has a good post-grad work permit. But which MBAs are there AND near the right companies?",p:["Post-graduation work rights absent from ALL GMAC properties — the most critical content gap for Evan","Advancery database gap: target programs not in the system — a documented product failure point"],o:["Post-graduation work permit guides by destination country — the single most urgent content gap","Advancery database expansion to include European programs"]},
+  {e:1,d:["Visa documentation and financial proof preparation","Coordinates visa timeline with application deadlines by country","Navigates school-by-school variable requirements"],t:"Requirements are completely different for every school. And my visa application timeline has to line up with my acceptance. I'm managing four countries simultaneously.",p:["International application complexity is compounding and exhausting","Visa timeline coordination with application deadlines is hard to manage","Documentation burden is the highest of any persona"],o:["International application process guides","Visa documentation checklists by destination country"]},
+  {e:3,d:["Weighs job offer against program enrollment","Evaluates immigration pathway for each option","Checks alumni employment by destination country"],t:"I got an offer in Berlin. I also got into Rotterdam. Which one actually gets me to the life I want — and faster?",p:["Enrollment reliability is uncertain — a job offer may preempt MBA enrollment","Post-graduation immigration outcome data essentially unavailable anywhere"],o:["Alumni employment by destination country","Immigration pathway outcomes data by program","Enrollment vs direct employment decision support"]},
+],
+claire:[
+  {e:4,d:["Peer announces MBA admission on LinkedIn","Family frames graduate school as 'the next thing'","Feels invisible as a remote employee","Starts exploring options"],t:"My friends are getting MBAs. My family expects this. But is it an MBA, an MSc, or a certificate? I genuinely don't know yet.",p:["Degree-type decision is unresolved — no framework for choosing","Financial reality may point to shorter programs but family framing assumes MBA"],o:["Degree-type comparison tool: MBA vs specialized master's vs certificate","Gen Z finance and consulting pathway content"]},
+  {e:3,d:["Peers default to GRE","GRE preserves flexibility if degree type is still undecided","GRE test prep begins"],t:"Everyone I know took GRE. And it works for other programs too if I change my mind. GMAT feels like too much commitment right now.",p:["GRE default on peer influence — GMAT is never independently evaluated","Degree ambiguity makes GRE's flexibility attractive, but also signals she may not be certain about GME at all"],o:["GRE vs GMAT vs EA comparison content for early-stage candidates","Degree-type self-assessment tool before test commitment","EA awareness — 90-min format appeals to uncertain candidates"]},
+  {e:4,d:["Virtual tours (primary GMAC touchpoint)","LinkedIn, Instagram, YouTube program research","ChatGPT school shortlist","Calls friend who is currently at INSEAD"],t:"My friend loves it there. That single endorsement matters more to me than any ranking. What does the community actually feel like?",p:["Official GMAC channels are not where Claire starts her research","Admissions process confusing for recently-graduated candidates who've never done it"],o:["Virtual tours — Claire is the core virtual tour candidate (480 attendees, largest segment)","Peer story content from recent graduates","Social media content strategy"]},
+  {e:3,d:["MBA vs specialized master's comparison","Scholarship availability as the primary degree-type decision driver","Online/async program filters","AI curriculum check"],t:"If INSEAD gives me a scholarship I'll do the MBA. If not, would an MSc Finance be just as good? The scholarship decides.",p:["Scholarship availability driving degree-type decision rather than program fit","AI curriculum prominence hard to verify across programs"],o:["MBA vs specialized master's comparison tool","Scholarship guide","AI curriculum spotlight by program"]},
+  {e:2,d:["Writes essays for the first time — entirely unfamiliar","Chases references","Managing compressed timeline: decided in Feb, deadline in April"],t:"I only decided in February. The deadline is April. I have no idea what a good application essay looks like. I've never done this before.",p:["Admissions process entirely unfamiliar for recently-graduated international candidates","Essays, recs, and interviews not normalized in her educational context","Compressed timeline amplifies all anxiety"],o:["Advancery — Claire's explicit unmet need: calendar integration and essay overlap identification","Essay guidance for first-time applicants"]},
+  {e:4,d:["Calls INSEAD friend for final read","Reviews scholarship offer","MBA vs MSc decision resolves","Commits"],t:"My friend says the network really is worth it. And I got a scholarship. My family is excited. If not now, when?",p:["Final financial commitment is significant","Geographic distance from family if going to Europe"],o:["Peer testimonial and student ambassador content","Admit day events and community building"]},
+],
+nadia:[
+  {e:2,d:["Watches political and economic situation deteriorate","Researches visa pathways — job offers, investment, other routes","Discovers MBA as a viable route out","Talks to diaspora community"],t:"I need to leave. I've tried other routes. The MBA is the most reliable ticket I have right now — even if it takes years.",p:["Relocation motivation is urgent and existential, not aspirational","Existing visa pathways are limited or unreliable"],o:["European program spotlights (destination-first, not program-first)","Immigration pathway through graduate study content"]},
+  {e:1,d:["GMAT with poor local test center access","Evaluates every obstacle against 'does this delay my leaving?'","Actively considers EA or GRE to reduce friction"],t:"Every problem with this test is another month I'm stuck here. If EA is 90 minutes and gets me to the same schools, I should take it.",p:["Highest test-phase friction of any persona","Every exam obstacle is evaluated against the relocation goal — not just the application goal"],o:["EA as an efficient path (trust-building and M7 acceptance required first)","Online GMAT as primary mode for her geographies","Clear customer service ownership — not bounced to PearsonVue"]},
+  {e:3,d:["European program research alongside destination country research simultaneously","ChatGPT for initial info","Diaspora WhatsApp and Telegram groups"],t:"I want Germany, the Netherlands, or France. Which MBA programs are actually there AND have good work permits with a real path to staying?",p:["Program research and immigration research must happen simultaneously on completely different websites","GMAC content is program-focused — the inverse of what Nadia needs"],o:["Destination-country program spotlights (Europe-first, not rankings-first)","European program directory filtered by post-grad immigration policy"]},
+  {e:3,d:["Post-graduation work permit research by country","Permanent residency pathway research","Comparing destination countries for stability and opportunity","International scholarship research"],t:"The Netherlands startup visa is interesting. Germany has a good job-seeking permit after graduation. Which MBA is in exactly the right country?",p:["Post-graduation work rights absent from ALL GMAC properties — the most urgent content gap in the entire framework","Immigration outcome data doesn't exist anywhere"],o:["Post-graduation work rights and residency pathway guides by destination country — the most urgent content gap across the entire framework","Immigration outcome data by program"]},
+  {e:1,d:["Visa documentation and financial proof preparation","Coordinates immigration timelines with application deadlines across 4 countries","Parallel job applications — just in case"],t:"I'm applying to 4 schools in 4 countries and every visa timeline is different. And I'm job-hunting in parallel because I don't know which route will work first.",p:["Coordinating application deadlines with visa timelines across 4 countries","Parallel job search creates enrollment ambiguity — she may disengage","Documentation burden is the highest of any persona"],o:["International application guides with visa timeline coordination by destination country","Documentation checklists by country"]},
+  {e:2,d:["Evaluates Rotterdam MBA offer against Berlin job offer","Checks residency pathway of each option","Family consultation before committing"],t:"I got into Rotterdam. I also got a job offer in Berlin. Which one actually gets me to where I want to go — and faster? The MBA is a means, not the end.",p:["Decision is not program A vs B — it's degree route vs non-degree route to the same destination","Enrollment reliability is the lowest of any persona — GMAC may lose Nadia even after serving her well"],o:["Post-graduation immigration outcome data (alumni currently working in target countries)","Enrollment vs direct employment decision support content"]},
+],
+};
+
+const EMOTION_LABELS = ["","Discouraged","Frustrated","Neutral","Hopeful","Excited"];
+
+function dotColor(e) {
+  if (e >= 5) return "#22C55E";
+  if (e >= 4) return "#84CC16";
+  if (e >= 3) return "#F59E0B";
+  if (e >= 2) return "#F97316";
+  return "#EF4444";
+}
+
+function yPos(e) { return 8 + (5 - e) * 12; }
+
+function buildPath(pts) {
+  if (pts.length < 2) return '';
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < pts.length; i++) {
+    const p0 = pts[Math.max(0, i-2)];
+    const p1 = pts[i-1];
+    const p2 = pts[i];
+    const p3 = pts[Math.min(pts.length-1, i+1)];
+    const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2[0]} ${p2[1]}`;
+  }
+  return d;
+}
+
+function App() {
+  const [activeId, setActiveId] = useState("han");
+  const persona = PERSONAS.find(p => p.id === activeId);
+  const stages = DATA[activeId];
+  const arcPts = stages.map((s, i) => [SW * i + SW / 2, yPos(s.e)]);
+  const arcPath = buildPath(arcPts);
+  const areaPath = arcPath + ` L ${arcPts[5][0]} ${AH - 2} L ${arcPts[0][0]} ${AH - 2} Z`;
+  const totalW = LW + SW * 6;
+  const arcW = SW * 6;
+
+  const border = "0.5px solid var(--border)";
+
+  const Row = (key, label, rowBg, textStyle, isList, dotFn) =>
+    React.createElement("div", {style:{display:"flex",borderTop:border}},
+      React.createElement("div", {
+        style:{width:LW,flexShrink:0,borderRight:border,background:"var(--bg-sec)",
+               padding:"10px",display:"flex",alignItems:"flex-start",justifyContent:"flex-end"}
+      },
+        React.createElement("span", {
+          style:{fontSize:10,fontWeight:500,textAlign:"right",lineHeight:1.35,
+                 color:key==="o"?persona.color:"var(--text-sec)"}
+        }, label)
+      ),
+      STAGES.map((st, i) => {
+        const val = stages[i][key];
+        return React.createElement("div", {
+          key:st.id,
+          style:{width:SW,flexShrink:0,borderLeft:i>0?border:"none",background:rowBg,
+                 padding:"10px 12px",fontSize:11.5,lineHeight:1.5,...textStyle}
+        },
+          Array.isArray(val)
+            ? React.createElement("ul", {style:{listStyle:"none",padding:0,margin:0}},
+                val.map((item, j) =>
+                  React.createElement("li", {key:j,style:{position:"relative",paddingLeft:14,marginBottom:5,lineHeight:1.45}},
+                    React.createElement("span", {style:{
+                      position:"absolute",left:0,top:5,width:5,height:5,borderRadius:"50%",display:"inline-block",
+                      background: key==="p" ? "var(--text-danger)" : key==="o" ? persona.color : "var(--text-sec)"
+                    }}),
+                    item
+                  )
+                )
+              )
+            : React.createElement("div", {
+                style:{paddingLeft:8,borderLeft:`2px solid ${persona.color}50`,lineHeight:1.65}
+              }, val)
+        );
+      })
+    );
+
+  return React.createElement("div", null,
+
+    React.createElement("div", {style:{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}},
+      PERSONAS.map(p =>
+        React.createElement("button", {
+          key:p.id,
+          onClick:()=>setActiveId(p.id),
+          style:{
+            cursor:"pointer",border:`0.5px solid ${activeId===p.id?p.color:"var(--border)"}`,
+            borderRadius:"var(--radius-md)",padding:"7px 12px",background:activeId===p.id?p.color+"14":"var(--bg)",
+            textAlign:"left",fontFamily:"inherit"
+          }
+        },
+          React.createElement("div",{style:{fontSize:12,fontWeight:500,color:activeId===p.id?p.color:"var(--text-pri)"}},
+            p.name + (p.thin?" ⚠":"")),
+          React.createElement("div",{style:{fontSize:10,color:"var(--text-sec)",marginTop:1}}, p.group)
+        )
+      )
+    ),
+
+    persona.thin && React.createElement("div", {
+      style:{border:"0.5px solid var(--border-warn)",background:"var(--bg-warn)",
+             borderRadius:"var(--radius-md)",padding:"9px 12px",fontSize:12,
+             color:"var(--text-warn)",marginBottom:12}
+    }, "⚠ This persona has insufficient research evidence. Journey data below is speculative. See persona update recommendations."),
+
+    React.createElement("div", {
+      style:{paddingBottom:12,marginBottom:16,borderBottom:border,display:"flex",alignItems:"baseline",gap:10}
+    },
+      React.createElement("span",{style:{fontSize:18,fontWeight:500,color:persona.color}},
+        persona.name+", "+persona.title),
+      React.createElement("span",{style:{fontSize:12,color:"var(--text-sec)"}}, persona.group)
+    ),
+
+    React.createElement("div", {
+      style:{overflowX:"auto",borderRadius:"var(--radius-lg)",border:border,scrollbarWidth:"thin"}
+    },
+      React.createElement("div", {style:{minWidth:totalW,width:"max-content"}},
+
+        React.createElement("div", {style:{display:"flex"}},
+          React.createElement("div", {style:{width:LW,flexShrink:0,borderRight:border,background:"var(--bg-sec)"}}),
+          STAGES.map((st,i) =>
+            React.createElement("div", {key:st.id,style:{
+              width:SW,flexShrink:0,borderLeft:i>0?border:"none",
+              borderTop:`2px solid ${st.topColor}`,background:st.bg,padding:"10px 12px"
+            }},
+              React.createElement("div",{style:{fontSize:11,fontWeight:500,color:"var(--text-pri)"}}, st.label),
+              React.createElement("div",{style:{fontSize:10,color:"var(--text-sec)",marginTop:2}}, st.note)
+            )
+          )
+        ),
+
+        React.createElement("div", {style:{display:"flex",borderTop:border}},
+          React.createElement("div", {
+            style:{width:LW,flexShrink:0,borderRight:border,background:"var(--bg-sec)",
+                   display:"flex",alignItems:"center",justifyContent:"flex-end",paddingRight:10}
+          },
+            React.createElement("span",{style:{fontSize:10,fontWeight:500,color:"var(--text-sec)",textAlign:"right",lineHeight:1.35,whiteSpace:"pre"}}, "Emotional\narc")
+          ),
+          React.createElement("div", {style:{width:arcW,position:"relative"}},
+            React.createElement("svg", {width:arcW,height:AH,style:{display:"block"}},
+              React.createElement("defs", null,
+                React.createElement("linearGradient", {id:"arcfill",x1:"0%",y1:"0%",x2:"0%",y2:"100%"},
+                  React.createElement("stop",{offset:"0%",stopColor:persona.color,stopOpacity:"0.18"}),
+                  React.createElement("stop",{offset:"100%",stopColor:persona.color,stopOpacity:"0.02"})
+                )
+              ),
+              [1,2,3,4,5].map(n =>
+                React.createElement("line",{key:n,x1:0,y1:yPos(n),x2:arcW,y2:yPos(n),stroke:"var(--border)",strokeWidth:"0.5"})
+              ),
+              [1,2,3,4,5].map(n =>
+                React.createElement("line",{key:n,x1:SW*n,y1:0,x2:SW*n,y2:AH,stroke:"var(--border)",strokeWidth:"0.5"})
+              ),
+              React.createElement("path",{d:areaPath,fill:"url(#arcfill)"}),
+              React.createElement("path",{d:arcPath,fill:"none",stroke:persona.color,strokeWidth:"2",strokeLinecap:"round"}),
+              arcPts.map(([x,y],i) =>
+                React.createElement("g",{key:i},
+                  React.createElement("circle",{cx:x,cy:y,r:4.5,fill:"var(--bg)",stroke:dotColor(stages[i].e),strokeWidth:"2"}),
+                  React.createElement("text",{x:x,y:AH-3,textAnchor:"middle",fontSize:"9",fill:"var(--text-sec)",fontFamily:"inherit"},
+                    EMOTION_LABELS[stages[i].e])
+                )
+              )
+            )
+          )
+        ),
+
+        Row("d","Doing","var(--bg)",{},{},null),
+        Row("t","Thinking","var(--bg-sec)",{fontStyle:"italic"},{},null),
+        Row("p","Friction","var(--bg-danger)",{color:"var(--text-danger)"},true,null),
+        Row("o","GMAC opportunity",persona.color+"10",{color:persona.color},true,null),
+      )
+    ),
+
+    React.createElement("div", {style:{display:"flex",gap:20,flexWrap:"wrap",marginTop:12}},
+      [
+        {color:"var(--text-sec)",label:"Doing — observable actions"},
+        {color:"var(--text-sec)",label:"Thinking — inner voice"},
+        {color:"var(--text-danger)",label:"Friction — struggle = Torres opportunity space"},
+        {color:persona.color,label:"GMAC opportunity — specific interventions"},
+      ].map(item =>
+        React.createElement("div",{key:item.label,style:{display:"flex",alignItems:"center",gap:5}},
+          React.createElement("div",{style:{width:7,height:7,borderRadius:"50%",background:item.color,flexShrink:0}}),
+          React.createElement("span",{style:{fontSize:11,color:"var(--text-sec)"}}, item.label)
+        )
+      )
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>
